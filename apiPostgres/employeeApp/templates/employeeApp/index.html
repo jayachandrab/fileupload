@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        </head>
+<body>  
+    <form method="POST" action="/uploadFile/" id="file-upload-form" class="post-form" enctype="multipart/form-data">  
+            {% csrf_token %}  
+            {{ form.as_p }}  
+            {% comment %} <button type="submit" class="save btn btn-default">Save</button>   {% endcomment %}
+            <button type="submit" class="btn btn-primary" id='upload-btn'>Upload</button>
+
+    </form>  
+
+    <script>
+
+        function upload(event) {
+            
+            event.preventDefault();
+            var data = new FormData();
+            //data.append("file",$("input[id^='file']")[0].files[0]);
+            data.append("file", $("input[id^='id_file']")[0].files[0]);
+            data.append("csrfmiddlewaretoken","{{ csrf_token }}");
+            data.append("firstname",$("#id_firstname").val());
+            data.append("lastname",$("#id_lastname").val());
+            data.append("email",$("#id_email").val());
+            //console.log(JSON.stringify(data));
+            $.ajax({
+                url: $(this).attr('action'),
+                type: $(this).attr('method'),
+                data: data,
+                cache: false,
+                processData: false,
+                contentType: false,
+                success: function(data) {
+                    alert(data["msg"]);
+                    alert('success');
+                }
+            });
+            return false;
+            }
+            
+            $(function() {
+               
+                $('form').submit(upload);
+            });
+    </script>
+    </body>
+    
+    </html>

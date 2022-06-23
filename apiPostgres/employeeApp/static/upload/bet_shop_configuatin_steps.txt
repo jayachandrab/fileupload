@@ -1,0 +1,45 @@
+betshop operator configuration
+betshop aggregators are fetched from services.backends
+
+1. First add aggregator to backends table
+
+2. Add operator to services.operators table (operator name will be same as aggregator)
+
+3. need to add operator to services.betshop_operators under specific aggregator (use the operator_id from the services.operators table)
+
+4. need to create operator in https://staging-cms.juegosdecasino.lat/cms/admin_section User Management section
+and select the operators available in services.betshop_Operators table
+
+The below process will happen when you create users
+
+-site id in the services.betshop_operators will be updated automatically when you create an operator using above link
+
+-configure site and operator in services.sites table, will be configured automatically when you create operator in the above link
+
+
+
+Example
+1
+insert into services.backends (name,module,configuration,sites,aggregator_type) values('Juegosdecasino','Juegosdecasino','','["KACAJOP"]','betshop');
+
+2
+insert into services.operators(operator_id,operator_name,parent_op_name,parent_op_id,aggregator_id) values(97,'Juegosdecasino','Juegosdecasino',97,58)
+
+3
+insert into services.betshop_operators(operator_name,parent_op_name,parent_op_id,aggregator_id,email,location,operator_label,operator_id)
+values('Juegosdecasino','Juegosdecasino',97,58,'juegosdecasino@gmail.com','uk','Juegosdecasino',97);
+
+(this data will be use when you create that operator)
+
+juegosdecasino_op/juegosdecasino_op@2021
+
+
+select * from services.backends where id=53
+update services.backends set sites='["ONCAJOP"]' where id=53;
+
+
+update services.sites set site_code='ON',network_code='CAJ',full_site_code='ONCAJOP' where id=342;
+
+other
+
+only operator can creat player but not provider or aggregator
